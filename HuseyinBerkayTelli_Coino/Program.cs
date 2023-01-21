@@ -1,5 +1,18 @@
-var builder = WebApplication.CreateBuilder(args);
+using AppEnvironment;
+using Context;
+using Microsoft.EntityFrameworkCore;
 
+var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
+var appSettings = configuration.Get<AppSettings>();
+
+
+builder.Services.AddScoped<AppSettings>();
+builder.Services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseMySql(appSettings.ConnectionStrings.DefaultConnection, ServerVersion.AutoDetect(appSettings.ConnectionStrings.DefaultConnection));
+});
 // Add services to the container.
 
 builder.Services.AddControllers();

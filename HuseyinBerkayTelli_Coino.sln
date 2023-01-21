@@ -3,19 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuseyinBerkayTelli_Coino", "HuseyinBerkayTelli_Coino\HuseyinBerkayTelli_Coino.csproj", "{5855738B-B106-482D-AD67-5E02547424A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HuseyinBerkayTelli_Coino", "HuseyinBerkayTelli_Coino\HuseyinBerkayTelli_Coino.csproj", "{5855738B-B106-482D-AD67-5E02547424A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{1AB1C1B0-4BE3-4587-B884-6D3D5F683F7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEnvironment", "AppEnvironment\AppEnvironment.csproj", "{ED7D2A0B-6C2F-4CAC-BEC6-C1B2480F18E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppEnvironment", "AppEnvironment\AppEnvironment.csproj", "{ED7D2A0B-6C2F-4CAC-BEC6-C1B2480F18E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticaion", "Authenticaion\Authenticaion.csproj", "{3A0C0B59-53E5-4CA9-8E99-FBC9CFA9ADF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authenticaion", "Authenticaion\Authenticaion.csproj", "{3A0C0B59-53E5-4CA9-8E99-FBC9CFA9ADF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Context", "Context\Context.csproj", "{A21906F2-C12C-4B1E-876D-7A1D6529C365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Context", "Context\Context.csproj", "{A21906F2-C12C-4B1E-876D-7A1D6529C365}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{D6A2DF75-0848-4871-9A65-2B192EB796EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{D6A2DF75-0848-4871-9A65-2B192EB796EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{AF4D1FB4-E675-4469-A8C9-3F97AFCD2A7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{AF4D1FB4-E675-4469-A8C9-3F97AFCD2A7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{DD0EA5FD-9A6C-482D-B76D-A0CC2E6D3C7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csproj", "{0F3D94F1-FFC3-48FB-B3AA-0E5E4B9C6530}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{CC252569-F27D-4A18-B4DA-5C90F43CC54D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +53,14 @@ Global
 		{AF4D1FB4-E675-4469-A8C9-3F97AFCD2A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF4D1FB4-E675-4469-A8C9-3F97AFCD2A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF4D1FB4-E675-4469-A8C9-3F97AFCD2A7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F3D94F1-FFC3-48FB-B3AA-0E5E4B9C6530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F3D94F1-FFC3-48FB-B3AA-0E5E4B9C6530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F3D94F1-FFC3-48FB-B3AA-0E5E4B9C6530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F3D94F1-FFC3-48FB-B3AA-0E5E4B9C6530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC252569-F27D-4A18-B4DA-5C90F43CC54D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC252569-F27D-4A18-B4DA-5C90F43CC54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC252569-F27D-4A18-B4DA-5C90F43CC54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC252569-F27D-4A18-B4DA-5C90F43CC54D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +71,8 @@ Global
 		{A21906F2-C12C-4B1E-876D-7A1D6529C365} = {1AB1C1B0-4BE3-4587-B884-6D3D5F683F7F}
 		{D6A2DF75-0848-4871-9A65-2B192EB796EB} = {1AB1C1B0-4BE3-4587-B884-6D3D5F683F7F}
 		{AF4D1FB4-E675-4469-A8C9-3F97AFCD2A7A} = {1AB1C1B0-4BE3-4587-B884-6D3D5F683F7F}
+		{0F3D94F1-FFC3-48FB-B3AA-0E5E4B9C6530} = {DD0EA5FD-9A6C-482D-B76D-A0CC2E6D3C7F}
+		{CC252569-F27D-4A18-B4DA-5C90F43CC54D} = {DD0EA5FD-9A6C-482D-B76D-A0CC2E6D3C7F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB011F27-A0C8-40C5-A6C7-35DDC31AB3B5}
