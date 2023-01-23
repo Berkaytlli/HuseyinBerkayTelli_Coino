@@ -1,9 +1,12 @@
 ﻿using AppEnvironment;
+using Authentication.Extensions;
 using Authentication.Hashing;
 using Context;
 using Entity.Authentication;
 using GenerateKey.OTP;
+using Microsoft.AspNetCore.Http;
 using Repository;
+using System.Security.Claims;
 using ViewModel.Authentication;
 
 namespace Business.UserBusinessService
@@ -13,35 +16,31 @@ namespace Business.UserBusinessService
         private readonly IUserRepositoryService _userRepositoryService;
         private readonly IOtpHelper _otpHelper;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         public UserBusinessService(IUserRepositoryService userRepositoryService,
                                    IOtpHelper otpHelper,
-                                   ApplicationDbContext dbContext)
+                                   ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _userRepositoryService = userRepositoryService;
             _dbContext = dbContext;
             _otpHelper = otpHelper;
-
+            _httpContextAccessor = httpContextAccessor;
         }
-        public Result<User> ForgotPassword(ForgotPasswordVM model)
+        public Result<User> ChangePassword(ChangePasswordVM model, ClaimsPrincipal claimsPrincipal)
         {
             using var transaction = _dbContext.Database.BeginTransaction();
             try
             {
-                var getUser = _userRepositoryService.GetFirst(x => x.Phone == model.PhoneNumber || x.Email == model.Email);
+                var userId = claimsPrincipal.GetUserId();
+                var getUser = _userRepositoryService.GetFirst(x => x.Id == userId);
                 if (!getUser.IsSuccess)
                     return new Result<User>(getUser.MessageType ?? MessageType.RecordNotFound);
+                if (!HashingHelper.VerifyPasswordHash(model.OldPassword, getUser.Data.PasswordHash, getUser.Data.PasswordSalt))
+                    return new Result<User>(MessageType.OperationFailed);
 
-                string newPassword = _otpHelper.GenerateOtpKey(6);
+                HashingHelper.CreatePasswordHash(model.NewPassword, out var passwordHash, out var passwordSalt);
 
-                HashingHelper.CreatePasswordHash(newPassword, out var passwordHash, out var passwordSalt);
-
-                string fullName = getUser.Data.FirstName + " " + getUser.Data.LastName;
-
-                //var sendSms = _smsService.ForgotSmsSending(to: getUser.Data.Phone, key: newPassword, userName: fullName, language: getUser.Data.Language);
-                //if (!sendSms.IsSuccess)
-                //    return new Result<User>(getUser.MessageType ?? MessageType.OperationFailed);
-
-                getUser.Data.Phone = model.PhoneNumber;
                 getUser.Data.PasswordHash = passwordHash;
                 getUser.Data.PasswordSalt = passwordSalt;
                 getUser.Data.RefreshToken = null;
@@ -58,6 +57,41 @@ namespace Business.UserBusinessService
                 return new Result<User>(e);
             }
         }
+    }
+        //public Result ChangePassword(string currentPassword, string newPassword)
+        //{
+        //    try
+        //    {
+        //        var user = GetCurrentUser();
+        //        if (user == null) return new Result(MessageType.Unauthorized);
+
+        //        if (!HashingHelper.VerifyPasswordHash(currentPassword, user.PasswordHash, user.PasswordSalt))
+        //            return new Result(MessageType.IncorrectPassword);
+
+        //        HashingHelper.CreatePasswordHash(newPassword, out var passwordHash, out var passwordSalt);
+
+        //        user.PasswordHash = passwordHash;
+        //        user.PasswordSalt = passwordSalt;
+
+        //        _userRepositoryService.Update(user, user.Id);
+
+        //        return new Result(MessageType.UpdateSuccess);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new Result(e);
+        //    }
+        //}
+
+
+
+        //public int GetCurrentUser()
+        //{
+        //    var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //    return Convert.ToInt32(userId);
+        //}
+    }
+
     //    public Result<User> VerifyEmailToken(string token)
     //    {
     //        using var transaction = _dbContext.Database.BeginTransaction();
@@ -219,5 +253,5 @@ namespace Business.UserBusinessService
     //            return new Result<User>(e);
     //        }
     //    }
-    }
-}
+
+

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Context.Migrations
 {
-    public partial class InitialMigration2 : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,14 +21,16 @@ namespace Context.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Phone = table.Column<string>(type: "longtext", nullable: true)
+                    Phone = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FirstName = table.Column<string>(type: "longtext", nullable: true)
+                    FirstName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastName = table.Column<string>(type: "longtext", nullable: true)
+                    LastName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PasswordHash = table.Column<byte[]>(type: "longblob", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "longblob", nullable: false),
+                    Address = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     RefreshToken = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RefreshTokenExpires = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -129,6 +131,16 @@ namespace Context.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "OperationClaims",
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "DeletedAt", "DeletedBy", "Name", "UpdatedAt", "UpdatedBy" },
+                values: new object[] { 1, new DateTime(2023, 1, 23, 18, 7, 51, 922, DateTimeKind.Local).AddTicks(7494), null, null, null, "Member", null, null });
+
+            migrationBuilder.InsertData(
+                table: "OperationClaims",
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "DeletedAt", "DeletedBy", "Name", "UpdatedAt", "UpdatedBy" },
+                values: new object[] { 2, new DateTime(2023, 1, 23, 18, 7, 51, 922, DateTimeKind.Local).AddTicks(7508), null, null, null, "Admin", null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OperationClaims_CreatedBy",

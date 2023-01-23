@@ -12,7 +12,7 @@ namespace Repository
 {
     public interface IUserRepositoryService : IBaseRepositoryService<User>
     {
-        public Result<User> Register(string email, string password);
+        public Result<User> Register(string firstname, string lastname, string email, string phone, string password, string address);
         public Result<User> Login(string identifier, string password, LoginVia loginVia = LoginVia.all);
         public Result<AccessToken> CreateAccessToken(User user);
         

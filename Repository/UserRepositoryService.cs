@@ -23,7 +23,7 @@ namespace Repository
             _tokenHelper = tokenHelper;
         }
 
-        public Result<User> Register(string email, string password)
+        public Result<User> Register(string firstname, string lastname, string email, string phone, string password, string address)
         {
             try
             {
@@ -31,8 +31,12 @@ namespace Repository
                 var user = new User
                 {
                     Email = email,
+                    FirstName = firstname,
+                    LastName = lastname,
+                    Phone = phone,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
+                    Address = address
                     
                 };
                 Add(user, null);

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Context.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230123131528_InitialMigration2")]
-    partial class InitialMigration2
+    [Migration("20230123150752_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,20 @@ namespace Context.Migrations
                     b.HasIndex("DeletedBy");
 
                     b.ToTable("OperationClaims");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2023, 1, 23, 18, 7, 51, 922, DateTimeKind.Local).AddTicks(7494),
+                            Name = "Member"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2023, 1, 23, 18, 7, 51, 922, DateTimeKind.Local).AddTicks(7508),
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Entity.Authentication.User", b =>
@@ -63,6 +77,10 @@ namespace Context.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -81,9 +99,11 @@ namespace Context.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<byte[]>("PasswordHash")
@@ -95,6 +115,7 @@ namespace Context.Migrations
                         .HasColumnType("longblob");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("RefreshToken")

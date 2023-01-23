@@ -4,7 +4,6 @@ using Entity.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using ViewModel;
 
 namespace HuseyinBerkayTelli_Coino.Controllers
@@ -33,8 +32,13 @@ namespace HuseyinBerkayTelli_Coino.Controllers
         public ActionResult Register(UserForRegisterVM userForRegisterDto)
         {//Todo data validation & authorize request(backoffice will create users from here too??)
             var registerResponse = _authBusinessService.Register(
+                firstname: userForRegisterDto.FirstName,
+                lastname: userForRegisterDto.LastName,
+                phone: userForRegisterDto.Phone,
+                address: userForRegisterDto.Address,
                 email: userForRegisterDto.Email,
-                password: userForRegisterDto.Password);
+                password: userForRegisterDto.Password
+                );
 
             if (!registerResponse.IsSuccess)
                 return BadRequest(registerResponse.Message ?? MessageType.OperationFailed.ToString());

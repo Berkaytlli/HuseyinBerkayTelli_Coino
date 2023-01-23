@@ -17,14 +17,13 @@ namespace HuseyinBerkayTelli_Coino.Controllers
             _userBusinessService = userBusinessService;
             _webHostEnvironment = webHostEnvironment;
         }
-        [HttpPost("ForgotPassword")]
-        public ActionResult ForgotPassword(ForgotPasswordVM model)
+        [HttpPost]
+        public IActionResult Post(ChangePasswordVM model)
         {
-            var resetPassword = _userBusinessService.ForgotPassword(model);
-            if (!resetPassword.IsSuccess)
-                return BadRequest(resetPassword.Message ?? MessageType.OperationFailed.ToString());
-
-            return Ok(resetPassword.Message ?? MessageType.OperationSuccess.ToString());
+            var result = _userBusinessService.ChangePassword(model, HttpContext.User);
+            if (result.IsSuccess)
+                return Ok(result);
+            return BadRequest(result);
         }
     }
 }

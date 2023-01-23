@@ -64,7 +64,7 @@ public class AuthBusinessService : IAuthBusinessService
             return new Result<AccessToken>(e);
         }
     }
-    public Result<AccessToken> Register(string email, string password)
+    public Result<AccessToken> Register(string firstname ,string lastname ,string email,string phone, string password,string address)
     {
         using var transaction = _dbContext.Database.BeginTransaction();
         try
@@ -72,8 +72,14 @@ public class AuthBusinessService : IAuthBusinessService
             var userExists = _userRepositoryService.GetFirst(u => u.Email == email);
             if (userExists.IsSuccess)
                 return new Result<AccessToken>(userExists.MessageType ?? MessageType.RecordAlreadyExists);
+
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(firstname) || string.IsNullOrWhiteSpace(lastname)
+            || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(address))
+            {
+                return new Result<AccessToken>(MessageType.OperationFailed);
+            }
             var registerResult = _userRepositoryService.Register(
-                email: email, password: password);
+                email: email, password: password, firstname : firstname,lastname : lastname,phone:phone,address:address);
             if (!registerResult.IsSuccess)
                 return new Result<AccessToken>(registerResult.MessageType ?? MessageType.OperationFailed) { Message = registerResult.Message };
 
