@@ -1,4 +1,6 @@
-﻿using Entity;
+﻿using AppEnvironment;
+using Business;
+using Entity.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -11,48 +13,46 @@ namespace HuseyinBerkayTelli_Coino.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
-        [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(UserForRegisterVM model)
+        private readonly IAuthBusinessService _authBusinessService;
+        public AuthController(IAuthBusinessService authBusinessService)
         {
-            CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            user.Email = model.Email;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-            return Ok(user);
+            _authBusinessService = authBusinessService;
         }
-        [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login(UserForLoginVM model)
+        [HttpPost("login")]
+        public ActionResult Login(UserForLoginVM userForLoginDto)
         {
-            if (user.Email != model.Email)
-            {
-                return BadRequest("UserNotFound");
-            }
-            if (!VerifyPasswordHash(model.Password,user.PasswordHash,user.PasswordSalt))
-            {
-                return BadRequest("Wrong password");
-            }
-            return Ok("MyCrazyToken");
+
+            var userToLogin = _authBusinessService.Login(userForLoginDto.Email, userForLoginDto.Password);
+            if (!userToLogin.IsSuccess)
+                return BadRequest(userToLogin.Message ?? MessageType.OperationFailed.ToString());
+            userToLogin.Message = MessageType.OperationSuccess.ToString();
+            return Ok(userToLogin);
 
         }
-        
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
+        [HttpPost("register")]
+        public ActionResult Register(UserForRegisterVM userForRegisterDto)
+        {//Todo data validation & authorize request(backoffice will create users from here too??)
+            var registerResponse = _authBusinessService.Register(
+                email: userForRegisterDto.Email,
+                password: userForRegisterDto.Password);
 
+            if (!registerResponse.IsSuccess)
+                return BadRequest(registerResponse.Message ?? MessageType.OperationFailed.ToString());
+            registerResponse.Message = MessageType.OperationSuccess.ToString();
+            return Ok(registerResponse);
         }
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        [HttpPost]
+        [Route("refresh/{id:int}")]
+        public ActionResult Refresh(int id)
         {
-            using (var hmac = new HMACSHA512(user.PasswordSalt))
+            var getToken = _authBusinessService.CreateNewAccessToken(id);
+
+            if (!getToken.IsSuccess)
             {
-                var comHash = hmac.ComputeHash(System.Text.ASCIIEncoding.UTF8.GetBytes(password));
-                return comHash.SequenceEqual(passwordHash);
+                return new ObjectResult(getToken);
             }
+            getToken.Message = MessageType.OperationSuccess.ToString();
+            return Ok(getToken);
         }
     }
 }

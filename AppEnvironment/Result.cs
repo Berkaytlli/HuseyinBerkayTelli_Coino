@@ -241,6 +241,7 @@ namespace AppEnvironment
         RecordAlreadyExists,
         ExceptionOccurred,
         Unauthorized,
+        Forbidden,
         ContactUs
     }
 }

@@ -1,4 +1,4 @@
-﻿using Entity;
+﻿using Entity.Authentication;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
