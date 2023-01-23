@@ -21,7 +21,7 @@ namespace Repository
             {
                 var requestExists = Get(u => u.OperationClaimId == claimId && u.isActive == true).Select(a => a.Id).ToList();
                 foreach (var i in requestExists)
-                {
+                {   
                     var claims = GetFirst(a => a.Id == i);
                     claims.Data.isActive = false;
                     Delete(claims.Data, operatorUserId);

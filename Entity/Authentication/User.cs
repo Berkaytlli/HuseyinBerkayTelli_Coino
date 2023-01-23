@@ -11,10 +11,13 @@ namespace Entity.Authentication
     public class User : BaseEntity
     {
         public string Email { get; set; } = string.Empty;
+        public string? Phone { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpires { get; set; }
 
         [InverseProperty("User")]
         public ICollection<UserOperationClaim> OperationClaims { get; set; }

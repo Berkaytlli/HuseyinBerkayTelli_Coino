@@ -12,10 +12,18 @@ namespace Context
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        { 
-        
+        {
+
         }
         public DbSet<User> Users { get; set; }
-        
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            new DbInitializer(builder).Seed();
+            const int maxLength = 191;
+        }
     }
 }

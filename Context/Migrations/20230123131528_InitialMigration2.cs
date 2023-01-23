@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Context.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigration2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,12 +21,17 @@ namespace Context.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Phone = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     FirstName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LastName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PasswordHash = table.Column<byte[]>(type: "longblob", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "longblob", nullable: false),
+                    RefreshToken = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RefreshTokenExpires = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -51,7 +56,7 @@ namespace Context.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "OperationClaim",
+                name: "OperationClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -67,14 +72,14 @@ namespace Context.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OperationClaim", x => x.Id);
+                    table.PrimaryKey("PK_OperationClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OperationClaim_Users_CreatedBy",
+                        name: "FK_OperationClaims_Users_CreatedBy",
                         column: x => x.CreatedBy,
                         principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_OperationClaim_Users_DeletedBy",
+                        name: "FK_OperationClaims_Users_DeletedBy",
                         column: x => x.DeletedBy,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -82,7 +87,7 @@ namespace Context.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "UserOperationClaim",
+                name: "UserOperationClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -99,25 +104,25 @@ namespace Context.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserOperationClaim", x => x.Id);
+                    table.PrimaryKey("PK_UserOperationClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserOperationClaim_OperationClaim_OperationClaimId",
+                        name: "FK_UserOperationClaims_OperationClaims_OperationClaimId",
                         column: x => x.OperationClaimId,
-                        principalTable: "OperationClaim",
+                        principalTable: "OperationClaims",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserOperationClaim_Users_CreatedBy",
+                        name: "FK_UserOperationClaims_Users_CreatedBy",
                         column: x => x.CreatedBy,
                         principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UserOperationClaim_Users_DeletedBy",
+                        name: "FK_UserOperationClaims_Users_DeletedBy",
                         column: x => x.DeletedBy,
                         principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UserOperationClaim_Users_UserId",
+                        name: "FK_UserOperationClaims_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -126,33 +131,33 @@ namespace Context.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OperationClaim_CreatedBy",
-                table: "OperationClaim",
+                name: "IX_OperationClaims_CreatedBy",
+                table: "OperationClaims",
                 column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OperationClaim_DeletedBy",
-                table: "OperationClaim",
+                name: "IX_OperationClaims_DeletedBy",
+                table: "OperationClaims",
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaim_CreatedBy",
-                table: "UserOperationClaim",
+                name: "IX_UserOperationClaims_CreatedBy",
+                table: "UserOperationClaims",
                 column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaim_DeletedBy",
-                table: "UserOperationClaim",
+                name: "IX_UserOperationClaims_DeletedBy",
+                table: "UserOperationClaims",
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaim_OperationClaimId",
-                table: "UserOperationClaim",
+                name: "IX_UserOperationClaims_OperationClaimId",
+                table: "UserOperationClaims",
                 column: "OperationClaimId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaim_UserId",
-                table: "UserOperationClaim",
+                name: "IX_UserOperationClaims_UserId",
+                table: "UserOperationClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -169,10 +174,10 @@ namespace Context.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserOperationClaim");
+                name: "UserOperationClaims");
 
             migrationBuilder.DropTable(
-                name: "OperationClaim");
+                name: "OperationClaims");
 
             migrationBuilder.DropTable(
                 name: "Users");

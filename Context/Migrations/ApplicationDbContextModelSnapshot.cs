@@ -53,7 +53,7 @@ namespace Context.Migrations
 
                     b.HasIndex("DeletedBy");
 
-                    b.ToTable("OperationClaim");
+                    b.ToTable("OperationClaims");
                 });
 
             modelBuilder.Entity("Entity.Authentication.User", b =>
@@ -91,6 +91,15 @@ namespace Context.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("longblob");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("RefreshTokenExpires")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -150,7 +159,7 @@ namespace Context.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserOperationClaim");
+                    b.ToTable("UserOperationClaims");
                 });
 
             modelBuilder.Entity("Entity.Authentication.OperationClaim", b =>
