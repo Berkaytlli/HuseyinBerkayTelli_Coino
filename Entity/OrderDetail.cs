@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entity
 {
-    public class OrderDetail
+    public class OrderDetail : BaseEntity
     {
         
         public int OrderProductId { get; set; }

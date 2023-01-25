@@ -19,7 +19,7 @@ namespace Entity.Authentication
         public string Address { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpires { get; set; }
-
+        public decimal? Balance { get; set; }
         [InverseProperty("User")]
         public ICollection<UserOperationClaim> OperationClaims { get; set; }
     }

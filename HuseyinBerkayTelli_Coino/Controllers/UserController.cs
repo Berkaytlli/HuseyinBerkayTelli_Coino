@@ -1,5 +1,5 @@
 ﻿using AppEnvironment;
-using Business.UserBusinessService;
+using Business.UserBusiness;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ViewModel.Authentication;
@@ -12,18 +12,22 @@ namespace HuseyinBerkayTelli_Coino.Controllers
     {
         private readonly IUserBusinessService _userBusinessService;
         public static IWebHostEnvironment _webHostEnvironment;
-        public UserController(IUserBusinessService userBusinessService, IWebHostEnvironment webHostEnvironment)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserController(IUserBusinessService userBusinessService, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _userBusinessService = userBusinessService;
             _webHostEnvironment = webHostEnvironment;
+            _httpContextAccessor = httpContextAccessor;
         }
-        [HttpPost]
-        public IActionResult Post(ChangePasswordVM model)
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordVM model)
         {
             var result = _userBusinessService.ChangePassword(model, HttpContext.User);
-            if (result.IsSuccess)
-                return Ok(result);
-            return BadRequest(result);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result.Data);
         }
+
     }
 }

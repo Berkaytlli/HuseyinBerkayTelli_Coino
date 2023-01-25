@@ -1,5 +1,5 @@
 ﻿using AppEnvironment;
-using Business;
+using Business.AuthBusiness;
 using Entity.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +30,7 @@ namespace HuseyinBerkayTelli_Coino.Controllers
         }
         [HttpPost("register")]
         public ActionResult Register(UserForRegisterVM userForRegisterDto)
-        {//Todo data validation & authorize request(backoffice will create users from here too??)
+        {
             var registerResponse = _authBusinessService.Register(
                 firstname: userForRegisterDto.FirstName,
                 lastname: userForRegisterDto.LastName,

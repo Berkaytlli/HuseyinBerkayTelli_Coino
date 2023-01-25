@@ -1,0 +1,2 @@
+dotnet ef --startup-project ../HuseyinBerkayTelli_Coino/ migrations add InitialMigration --context ApplicationDbContext
+dotnet ef --startup-project ../HuseyinBerkayTelli_Coino/ database update --context ApplicationDbContext

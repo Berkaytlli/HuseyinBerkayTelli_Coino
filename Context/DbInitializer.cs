@@ -10,10 +10,10 @@ namespace Context
 {
     public class DbInitializer
     {
-        private readonly ModelBuilder modelBuilder;
+        private readonly ModelBuilder _modelBuilder;
         public DbInitializer(ModelBuilder modelBuilder)
         {
-            this.modelBuilder = modelBuilder;
+            _modelBuilder = modelBuilder;
         }
         public void Seed()
         {
@@ -22,7 +22,7 @@ namespace Context
             new OperationClaim(){ Id = 1, Name = "Member" },
             new OperationClaim(){Id = 2 ,Name = "Admin"}
             };
-            modelBuilder.Entity<OperationClaim>().HasData(operationClaims);
+            _modelBuilder.Entity<OperationClaim>().HasData(operationClaims);
         }
     }
 }

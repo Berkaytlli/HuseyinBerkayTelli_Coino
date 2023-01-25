@@ -20,7 +20,11 @@ namespace Authentication.Extensions
         }
         public static int GetUserId(this ClaimsPrincipal claimsPrincipal)
         {
-            return Convert.ToInt32(claimsPrincipal?.Claims(ClaimTypes.NameIdentifier)?.FirstOrDefault());
+            var claimValue = claimsPrincipal?.Claims(ClaimTypes.NameIdentifier)?.FirstOrDefault();
+            if (claimValue == null)
+                return 0;
+            return Convert.ToInt32(claimValue);
         }
+
     }
 }

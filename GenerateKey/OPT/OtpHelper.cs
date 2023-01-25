@@ -1,7 +1,7 @@
 ﻿using AppEnvironment;
 using Context;
 using Entity;
-using Repository;
+using Repository.OtpKeyRepository;
 using System.Text;
 
 namespace GenerateKey.OTP

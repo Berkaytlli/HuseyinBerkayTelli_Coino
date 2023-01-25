@@ -14,7 +14,7 @@ namespace Entity
         {
             Count= 1;
         }
-        public string UserAppId { get; set; }
+        public int UserAppId { get; set; }
         public int ProductId { get; set; }
         public int Count { get; set; }
         public double Price { get; set; }

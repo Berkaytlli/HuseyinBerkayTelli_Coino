@@ -19,8 +19,7 @@ namespace Entity
         public int? UpdatedBy { get; set; }
         public int? CreatedBy { get; set; }
 
-        [ForeignKey("CreatedBy")] public User CreatedByUser { get; set; }
-        [ForeignKey("DeletedBy")] public User DeletedByUser { get; set; }
+        
 
     }
 }
